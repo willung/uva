@@ -13,18 +13,21 @@ void printResult(int n);
 
 int main()
 {
-   int i, inputs[NO_INPUTS], digit, n_digits, n_carries=0;
+   int i, inputs[NO_INPUTS], digit, n_digits, n_carries=0, carry=0, total;
 
    while (cin >> inputs[0] >> inputs[1]) {
        n_carries = 0;
        if (inputs[0] == 0 && inputs[1] == 0) {
            break;
        } else {
-           n_digits = getNumDigits(inputs[0]);
+           n_digits = min(getNumDigits(inputs[0]), getNumDigits(inputs[1]));
+           carry=0;
            for (i=1; i<=n_digits; i++) {
-                if (getDigit(inputs[0],i) + getDigit(inputs[1],i) >= 10) {
+                total = getDigit(inputs[0],i) + getDigit(inputs[1],i);
+                if (total + carry >= 10) {
                     n_carries++;
                 }
+                carry = int(total / 10);
            }
        }
        printResult(n_carries);
