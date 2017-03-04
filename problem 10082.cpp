@@ -13,13 +13,12 @@ int main()
    string input;
    
    while(getline(cin,input)) {
-       if (input[i] == ' ') {
-           cout << ' ';
-       }
        for (i=0; i<input.length(); i++) {
-            input.replace(i,1,getReplaceStr(input[i]));
+            if (input[i] != ' ') {
+                input.replace(i,1,getReplaceStr(input[i]));
+            }
        }
-       cout << input;
+       cout << input << endl;
    }
    return 0;
 }
@@ -40,4 +39,5 @@ string getReplaceStr(char input) {
         }
         
     }
+    return string(1,input);
 }
