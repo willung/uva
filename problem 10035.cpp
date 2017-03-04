@@ -9,22 +9,25 @@ int getDigit(int input, int n);
 
 int getNumDigits(int input);
 
+void printResult(int n);
+
 int main()
 {
    int i, inputs[NO_INPUTS], digit, n_digits, n_carries=0;
 
    while (cin >> inputs[0] >> inputs[1]) {
+       n_carries = 0;
        if (inputs[0] == 0 && inputs[1] == 0) {
            break;
        } else {
-           n_digits = GetNumDigits(inputs[0]);
-           for (i=1, i<=n_digits, i++) {
-                if (getDigit(input[0],i) + getDigit(input[1],i) > 10) {
+           n_digits = getNumDigits(inputs[0]);
+           for (i=1; i<=n_digits; i++) {
+                if (getDigit(inputs[0],i) + getDigit(inputs[1],i) >= 10) {
                     n_carries++;
                 }
            }
        }
-       cout << n_carries << endl;
+       printResult(n_carries);
    }
    
 }
@@ -47,6 +50,20 @@ int getNumDigits(int input) {
             return i; 
         }
     }
+}
+
+void printResult(int n) {
+    if (n<0) {
+        return;
+    }
+    if (n==0) {
+        cout << "No carry operation." << endl;
+    } else if (n==1) {
+        cout << "1 carry operation." << endl;
+    } else {
+        cout << n << " carry operations." << endl;
+    }
+    return;
 }
 
     /* looping to get digits for a single number
