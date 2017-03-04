@@ -10,8 +10,8 @@ int main()
 {
    long int inputs[NO_INPUTS];
    
-   cout<< fixed;
-   cout<< setprecision(0);
+   cout << fixed;
+   cout << setprecision(0);
    while (cin >> inputs[0] >> inputs[1]) {
        cout << fabs(inputs[0]-inputs[1]) << endl;
    }
