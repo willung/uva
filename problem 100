@@ -13,7 +13,6 @@ int main()
        if (max_cycles < cycles) {
             max_cycles = cycles;
        }
-       cout << input << cycles << endl;
    }
    
    cout << lower_input << " " << upper_input << " " << max_cycles << endl;
