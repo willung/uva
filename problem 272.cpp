@@ -3,8 +3,6 @@
 
 using namespace std;
 
-string getReplaceStr(char input);
-
 int main()
 {
    int i, index, open=1;
