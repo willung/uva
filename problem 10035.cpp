@@ -13,21 +13,39 @@ void printResult(int n);
 
 int main()
 {
-   int i, inputs[NO_INPUTS], digit, n_digits, n_carries=0, carry=0, total;
+   int i, inputs[NO_INPUTS], n_digits[NO_INPUTS], min_digits,
+       digit, n_carries=0, carry=0, total;
 
    while (cin >> inputs[0] >> inputs[1]) {
        n_carries = 0;
        if (inputs[0] == 0 && inputs[1] == 0) {
            break;
        } else {
-           n_digits = min(getNumDigits(inputs[0]), getNumDigits(inputs[1]));
+           // calculate number of digits for each input, store minimum
+           min_digits = 0;
+           for (i=0; i<NO_INPUTS; i++) {
+                n_digits[i] = getNumDigits(inputs[i]);
+                if (min_digits < n_digits[i]) {
+                    min_digits = n_digits[i];
+                }
+           }
+           
+           //calculate if sum of digits carry over
            carry=0;
-           for (i=1; i<=n_digits; i++) {
+           for (i=1; i<=min_digits; i++) {
                 total = getDigit(inputs[0],i) + getDigit(inputs[1],i);
                 if (total + carry >= 10) {
                     n_carries++;
                 }
-                carry = int(total / 10);
+                carry = int((total + carry)/ 10);
+           }
+           
+           //if one number has more digit, check for carry over
+           for (i=0; i<NO_INPUTS; i++) {
+               if (n_digits[i] > min_digits && 
+                    getDigit(inputs[i],min_digits+1) + carry >= 10) {
+                   n_carries++;
+               }
            }
        }
        printResult(n_carries);
