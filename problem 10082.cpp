@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#define NO_KEYS 34
+#define NO_KEYS 47
 
 using namespace std;
 
@@ -12,26 +12,30 @@ int main()
    int i, index;
    string input;
    
-   cin >> input;
-   for (i=0; i<input.length(); i++) {
-       input.replace(i,1,getReplaceStr(input[i]));
+   while(getline(cin,input)) {
+       if (input[i] == ' ') {
+           cout << ' ';
+       }
+       for (i=0; i<input.length(); i++) {
+            input.replace(i,1,getReplaceStr(input[i]));
+       }
+       cout << input;
    }
-   
-   cout << input << endl;
    return 0;
 }
 
 string getReplaceStr(char input) {
     int i;
-    char keys[NO_KEYS] = {'Q','W','E','R','T','Y','U','I','O','P','[',']','\\',
+    char keys[NO_KEYS] = {'`','1','2','3','4','5','6','7','8','9','0','-','=',
+                          'Q','W','E','R','T','Y','U','I','O','P','[',']','\\',
                           'A','S','D','F','G','H','J','K','L',';','\'',
                           'Z','X','C','V','B','N','M',',','.','/'};
     for (i=1; i<NO_KEYS; i++) {
         if (tolower(keys[i]) == tolower(input)) {
             if (islower(input)) {
-                return string(1,tolower(keys[i]));
+                return string(1,tolower(keys[i-1]));
             } else {
-                return string(1,keys[i]);
+                return string(1,keys[i-1]);
             }
         }
         
