@@ -13,7 +13,7 @@ int main()
    string input;
    
    cin >> input;
-   for (i=0; i<input.length; i++) {
+   for (i=0; i<input.length(); i++) {
        input.replace(i,1,getReplaceStr(input[i]));
    }
    
@@ -23,7 +23,7 @@ int main()
 
 string getReplaceStr(char input) {
     int i;
-    char KEYS[NO_KEYS] = {'Q','W','E','R','T','Y','U','I','O','P','[',']','\\',
+    char keys[NO_KEYS] = {'Q','W','E','R','T','Y','U','I','O','P','[',']','\\',
                           'A','S','D','F','G','H','J','K','L',';','\'',
                           'Z','X','C','V','B','N','M',',','.','/'};
     for (i=1; i<NO_KEYS; i++) {
@@ -36,4 +36,4 @@ string getReplaceStr(char input) {
         }
         
     }
-
+}
