@@ -3,8 +3,6 @@
 
 using namespace std;
 
-int getReplaceStr(char input);
-
 int main()
 {
    int i, j, n_inputs=1, n_cases, lower_input, upper_input, is_unique=0;
