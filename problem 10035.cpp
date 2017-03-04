@@ -7,40 +7,47 @@ using namespace std;
 
 int getDigit(int input, int n);
 
+int getNumDigits(int input);
+
 int main()
 {
-   int i, inputs[NO_INPUTS], digit=0, n_digits=1, output=1, lastdigit=0;
+   int i, inputs[NO_INPUTS], digit, n_digits, n_carries=0;
+
    while (cin >> inputs[0] >> inputs[1]) {
        if (inputs[0] == 0 && inputs[1] == 0) {
            break;
        } else {
-           for (i=0, i<MAX_DIGITS, i++) {
-                
+           n_digits = GetNumDigits(inputs[0]);
+           for (i=1, i<=n_digits, i++) {
+                if (getDigit(input[0],i) + getDigit(input[1],i) > 10) {
+                    n_carries++;
+                }
            }
        }
+       cout << n_carries << endl;
    }
    
-
-   }
 }
 
 // return nth digit for input 
 int getDigit(int input, int n) {
     int digit;
     // left truncate at (n+1)th digit from right 
-    digit = input % int(pow(10,n+1));
+    digit = input % int(pow(10,n));
     // right truncate at second digit from left 
-    digit = digit / pow(10,n));
+    digit = int(digit / pow(10,n-1));
     return digit; 
 }
 
 // return number of digits for input 
 int getNumDigits(int input) {
-    for (i=1, i<MAX_DIGITS, i++) {
+    int i;
+    for (i=1; i<MAX_DIGITS; i++) {
         if (input == input % int(pow(10,i))) {
             return i; 
         }
     }
+}
 
     /* looping to get digits for a single number
     for (i=0; i<MAX_DIGITS; i++) {
