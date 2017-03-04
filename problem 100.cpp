@@ -11,15 +11,15 @@ int main()
    while (cin >> lower_input >> upper_input) {
        max_cycles=1;
        
-       #Print input
+       // Print input
        cout << lower_input << " " << upper_input << " ";
        
-       #Swap inputs to match lower and upper bounds
+       // Swap inputs to match lower and upper bounds
        if (lower_input > upper_input) {
            swap(lower_input, upper_input);
        }
        
-       #Cycle through integers to find max cycle
+       // Cycle through integers to find max cycle
        for (input = lower_input; input <= upper_input; input++ ) {
            cycles = GetCycleNumber(input,1);
            if (max_cycles < cycles) {
@@ -27,7 +27,7 @@ int main()
            }
        }
        
-       #Print Max Cycle results
+       // Print Max Cycle results
        cout << max_cycles << endl;
    }
    
