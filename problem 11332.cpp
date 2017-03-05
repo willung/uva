@@ -13,9 +13,13 @@ int sumDigits(int input);
 
 int main()
 {
-   int i, input;
+   int i, input=1, sum;
 
    while (cin >> input) {
+       // end loop upon reading value '0'
+        if (input == 0) {
+            break;
+        }
         cout << sumDigits(input) << endl;
    }
    
@@ -43,14 +47,16 @@ int sumDigits(int input) {
         }
         return sumDigits(sum);
     }
+    return input;
 }
 
 // return number of digits for input 
 int getNumDigits(int input) {
     int i;
-    for (i=1; i<MAX_DIGITS; i++) {
+    for (i=1; i<=MAX_DIGITS; i++) {
         if (input == input % int(pow(10,i))) {
             return i; 
         }
     }
+    return i;
 }
