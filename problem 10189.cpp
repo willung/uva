@@ -12,19 +12,29 @@ using namespace std;
 void fillField(int row, int col, char field[MAX_ROW][MAX_COL], int mines[MAX_ROW][MAX_COL],
                int top, int bot, int left, int right);
 
+/* Could also add additional row & columns of 0s around the field, and sum adjacent squares
+   rather than finding all the edge cases */
 int main()
 {
     char field[MAX_ROW][MAX_COL];
     int mines[MAX_ROW][MAX_COL];
-    int i,j,n_rows,n_cols;
+    int i,j,n_rows,n_cols,n_cases=1;
     int top,right,bot,left;
     char temp_input;
     while(cin >> n_rows >> n_cols) {
         if (n_rows == 0 && n_cols == 0 ) {
             break;
         }
-        for (j=0; j<n_cols; j++) {
-            for (i=0; i<n_rows; i++) {
+      
+        //breaks between each test case
+        if (n_cases > 1) {
+            cout << endl;
+        }
+        cout << "Field #" << n_cases << ":" <<endl;
+        n_cases++;
+
+        for (i=0; i<n_rows; i++) {
+            for (j=0; j<n_cols; j++) {
                 cin >> temp_input;
                 
                 //store mines
@@ -40,8 +50,8 @@ int main()
         }
         
         //replace field with numbers
-        for (j=0; j<n_cols; j++) {
-            for (i=0; i<n_rows; i++) {
+        for (i=0; i<n_rows; i++) {
+            for (j=0; j<n_cols; j++) {
                 top=1;right=1;left=1;bot=1;
                 if (i == 0) { top=0; } 
                 if (i == n_rows-1) { bot=0; }
@@ -69,13 +79,13 @@ int main()
 
 void fillField(int row, int col, char field[MAX_ROW][MAX_COL], int mines[MAX_ROW][MAX_COL],
                int top, int bot, int left, int right) {
-    field[row][col] += (top+left-top*left)*mines[row-1][col-1];   //top left
-    field[row][col] += top*mines[row-1][col];                     //top mid
-    field[row][col] += (top+right-top*right)*mines[row-1][col+1]; //top right
-    field[row][col] += left*mines[row][col-1];                    //mid left
-    field[row][col] += right*mines[row][col+1];                   //mid right
-    field[row][col] += (bot+left-bot*left)*mines[row+1][col-1];   //bot left
-    field[row][col] += bot*mines[row+1][col];                     //bot mid
-    field[row][col] += (bot+right-bot*right)*mines[row+1][col+1]; //bot right
+    field[row][col] += top*left*mines[row-1][col-1];   //top left
+    field[row][col] += top*mines[row-1][col];          //top mid
+    field[row][col] += top*right*mines[row-1][col+1];  //top right
+    field[row][col] += left*mines[row][col-1];         //mid left
+    field[row][col] += right*mines[row][col+1];        //mid right
+    field[row][col] += bot*left*mines[row+1][col-1];   //bot left
+    field[row][col] += bot*mines[row+1][col];          //bot mid
+    field[row][col] += bot*right*mines[row+1][col+1];  //bot right
     return;
 }
