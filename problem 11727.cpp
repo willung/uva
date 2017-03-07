@@ -1,6 +1,8 @@
 #include <iostream>
 #include <time.h>
 
+#define MAX_DUR 100             //loans at most 100 months long
+
 using namespace std;
 
 class Loan {
@@ -16,7 +18,7 @@ class Loan {
         void repayUpdate(double payment, int dur);
         void depreciateUpdate(double depr_perc, int dur);
         void printStatus(void);
-        int  isValue
+        int  loanLessThanCar(void);
 };
 
 void Loan::setInitial(double value, int dur, int repay, int interest) {
@@ -42,24 +44,32 @@ void Loan::depreciateUpdate(double depr_perc, int dur) {
     duration -= dur;
 }
 
+int Loan::loanLessThanCar(void) {
+    return loan_value < car_value;
+}
+
 void Loan::printStatus(void) {
-    cout << "Current value: " << current_value << endl;
+    cout << "Loan value: " << loan_value << endl;
+    cout << "Car value: " << car_value << endl;
     cout << "Duration remaining: " << duration << endl;
     cout << "Repayment amounts: " << repayment << endl;
 }
 
 int main(void) {
-    int i, interest=1, duration, n_deprs, depr_month;
+    int i, j, interest=1, duration, n_deprs, depr_month;
     double value, repayment, depr_perc;
     Loan carLoan;
     
     cin >> duration >> repayment >> value >> n_deprs;
     carLoan.setInitial(value,duration,repayment,1);
     
-    for (i=0; i<n_deprs; i++) {
-        cin >> depr_month >> depr_perc;
-        carLoan.depreciateUpdate(depr_perc, depr_month);
-        carLoan.printStatus();
+    //initial depreciation
+    cin >> depr_month >> depr_perc;
+    for (i=depr_month; i<n_deprs; i++) {
+        for (j=0; j<MAX_DUR; j++) {
+            carLoan.depreciateUpdate(depr_perc, depr_month);
+            carLoan.printStatus();
+        }
     }
     
     return 0;
