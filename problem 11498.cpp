@@ -1,6 +1,6 @@
 #include <iostream>
 
-#define MAX_QUERIES 1000
+#define MAX_COORDS 1000
 
 using namespace std;
 
@@ -13,6 +13,7 @@ class Coordinate {
       void setLatitude(int lat);
       void setLongitude(int lon);
       void printCoordinate(void);
+      void compare(Coordinate coord);
 };
 
 void Coordinate::setLatitude(int lat) {
@@ -24,20 +25,57 @@ void Coordinate::setLongitude(int lon) {
 }
 
 void Coordinate::printCoordinate(void) {
-    cout << "Latitude: " << latitude << " Longitude: " << longitude << endl;
+    cout << "Longitude: " << longitude << " Latitude: " << latitude << endl;
+}
+
+void Coordinate::compare(Coordinate coord) {
+    //check if it's on divisa
+    if (this->latitude == coord.latitude || this -> longitude == coord.longitude) {
+        cout << "divisa" << endl;
+    } 
+    
+    //check for North or South of divisa
+    if (this->latitude > coord.latitude) {
+        cout << "N";
+    } else {
+        cout << "S";
+    }
+    
+    //check for East or West of divisa
+    if (this->longitude > coord.longitude) {
+        cout << "E" << endl;
+    } else {
+        cout << "O" << endl;
+    }
 }
 
 int main()
 {
-   Coordinate divisa;
-   int n_cases, latitude, longitude;
+   Coordinate divisa, coords;
+   int i, n_queries, latitude, longitude;
    
-   cin >> n_cases;
+   //get K, number of queries 
+   while (cin >> n_queries) {
+       
+       //end of input indicated by number 0
+       if (n_queries == 0 ) {
+           break;
+       }
    
-   cin >> latitude >> longitude;
-   divisa.setLatitude(latitude);
-   divisa.setLongitude(longitude);
-   
+       //store coordinates of divisa
+       cin >> longitude >> latitude;
+       divisa.setLongitude(longitude);
+       divisa.setLatitude(latitude);
+       
+       //output for each coordinate
+       for (i=0; i<n_queries; i++) {
+           cin >> longitude >> latitude;
+           coords.setLatitude(latitude);
+           coords.setLongitude(longitude);
+           coords.compare(divisa);
+       }
+   }
+
    return 0;
 }
 
