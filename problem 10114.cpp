@@ -1,7 +1,7 @@
 #include <iostream>
 #include <time.h>
 
-#define MAX_DUR  100             //loans at most 100 months long
+#define MAX_DUR_PLUS_ONE  101             //loans at most 100 months long
 #define MAX_DEPR 100
 
 using namespace std;
@@ -80,16 +80,20 @@ int main(void) {
         //initial depreciation
         curr_month=0; 
         cin >> curr_depr_month >> depr_perc;
-        cin >> next_depr_month;
+        if (n_deprs > 1) {
+            cin >> next_depr_month;
+        } else {
+            next_depr_month = MAX_DUR_PLUS_ONE;
+        }
         n_deprs--;
         
-        while(curr_month <= MAX_DUR) {
+        while(curr_month < MAX_DUR_PLUS_ONE) {
             if (curr_month == next_depr_month) {
                 //update depreciation month, percentage and month of next depr rate
                 curr_depr_month = next_depr_month;
                 cin >> depr_perc;
                 if (n_deprs == 1) {
-                    next_depr_month = MAX_DUR;
+                    next_depr_month = MAX_DUR_PLUS_ONE;
                 } else {
                     cin >> next_depr_month;
                 }
@@ -101,7 +105,7 @@ int main(void) {
                 carLoan.updateRepayment(repayment, 1);
                 carLoan.updateDuration(1);
             }
-            carLoan.printStatus();
+            //carLoan.printStatus();
             if (carLoan.loanLessThanCar()) {
                 cout << curr_month;
                 if (curr_month == 1) {
