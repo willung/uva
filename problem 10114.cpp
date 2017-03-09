@@ -1,7 +1,8 @@
 #include <iostream>
 #include <time.h>
 
-#define MAX_DUR 100             //loans at most 100 months long
+#define MAX_DUR  100             //loans at most 100 months long
+#define MAX_DEPR 100
 
 using namespace std;
 
@@ -10,11 +11,11 @@ class Loan {
         double loan_value;
         double car_value;
         int duration;           //duration of loan in months
-        int repayment;          //amount of each repayment
+        double repayment;       //amount of each repayment
         int interest_rate;      //interest rate on total value
         
     public:
-        void setInitial(double value, int dur, int repay, int interest);
+        void setInitial(double value, int dur, double downpay, int interest);
         void updateRepayment(double payment, int dur);
         void updateDepreciation(double depr_perc, int dur);
         void updateDuration(int dur);
@@ -23,12 +24,13 @@ class Loan {
 };
 
 //set Initial terms of the loan
-void Loan::setInitial(double value, int dur, int repay, int interest) {
-    loan_value = value;           
-    car_value = value+repay;      //downpayment equal to one repayment
+void Loan::setInitial(double value, int dur, double downpay, int interest) {
     duration = dur;
-    repayment = repay;
     interest_rate = interest;
+    repayment = value/dur;
+    loan_value = value;
+    car_value = value+downpay;      //downpayment equal to one repayment
+
 }
 
 //update loan value after repayments
@@ -38,12 +40,7 @@ void Loan::updateRepayment(double payment, int dur) {
 
 //update car value after depreciation
 void Loan::updateDepreciation(double depr_perc, int dur) {
-    if (dur > 0) { 
-        car_value *= dur*(1-depr_perc);
-    } else {
-        //initial depreciation at month 0
-        car_value *= (1-depr_perc);
-    }
+    car_value *= dur*(1-depr_perc);
 }
 
 //update duration remaining on loan
@@ -66,33 +63,61 @@ void Loan::printStatus(void) {
 }
 
 int main(void) {
-    int i, j, interest=1, duration, n_deprs, curr_month, depr_month;
-    double value, repayment, depr_perc;
+    int i, j, interest=1, duration, n_deprs, curr_month, 
+        curr_depr_month, next_depr_month;
+    double value, downpayment, repayment, depr_perc, unused_depr;
     Loan carLoan;
     
-    cin >> duration >> repayment >> value >> n_deprs;
-    carLoan.setInitial(value,duration,repayment,1);
-    
-    //initial depreciation
-    cin >> depr_month >> depr_perc;
-    curr_month=0;
-    for (i=1; i<n_deprs; i++) {
-        cin >> depr_month;
-        while (curr_month < depr_month) {
-            //increment through repay/decr by one month
+    while(cin >> duration >> downpayment >> value >> n_deprs) {
+        if (duration < 0) {
+            break;
+        }
+
+        repayment = value/duration;
+        carLoan.setInitial(value,duration,downpayment,1);
+        //carLoan.printStatus();
+
+        //initial depreciation
+        curr_month=0; 
+        cin >> curr_depr_month >> depr_perc;
+        cin >> next_depr_month;
+        n_deprs--;
+        
+        while(curr_month <= MAX_DUR) {
+            if (curr_month == next_depr_month) {
+                //update depreciation month, percentage and month of next depr rate
+                curr_depr_month = next_depr_month;
+                cin >> depr_perc;
+                if (n_deprs == 1) {
+                    next_depr_month = MAX_DUR;
+                } else {
+                    cin >> next_depr_month;
+                }
+                n_deprs--;
+            }
+            
             carLoan.updateDepreciation(depr_perc, 1);
-            carLoan.updateRepayment(repayment, 1);
-            carLoan.updateDuration(1);
+            if (curr_month > 0) {
+                carLoan.updateRepayment(repayment, 1);
+                carLoan.updateDuration(1);
+            }
             carLoan.printStatus();
             if (carLoan.loanLessThanCar()) {
-                cout << curr_month << endl;
+                cout << curr_month;
+                if (curr_month == 1) {
+                    cout << " month" << endl;
+                } else {
+                    cout << " months" << endl;
+                }    
+                
+                //cycle through unused deprec values 
+                for (i=0; i<2*n_deprs-1; i++) {
+                    cin >> unused_depr;
+                }
                 break;
             }
             curr_month++;
-            //carLoan.printStatus();
         }
-        cin >> depr_perc;
     }
-    
     return 0;
 }
