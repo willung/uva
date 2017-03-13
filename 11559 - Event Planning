@@ -4,7 +4,7 @@
 
 #define MAX_PPL 200     // max participants
 #define MIN_PPL 1
-#define MAX_BGT 5000000 // max budget
+#define MAX_BGT 500000 // max budget
 #define MIN_BGT 1
 #define MAX_HTL 18      // max hotels
 #define MIN_HTL 1
@@ -32,7 +32,7 @@ int main()
             !in_bounds(budget,MIN_BGT,MAX_BGT) ||
             !in_bounds(n_hotels,MIN_HTL,MAX_HTL) ||
             !in_bounds(n_weeks,MIN_WKS,MAX_WKS)) {
-                cout << "Error: a Input data out of bounds" << endl;
+                cout << "Error: Input data out of bounds" << endl;
             }
         
         for (i=0; i<n_hotels; i++) {
@@ -49,7 +49,7 @@ int main()
                 //ignore line of bed values
                 cin.ignore();
                 cin.ignore(numeric_limits<int>::max(),'\n');
-                break;
+                continue;
             }
             
             for (j=0; j<n_weeks; j++) {
@@ -63,7 +63,7 @@ int main()
                 
                 //if there's enough beds
                 if (n_beds >= n_participants) {
-                    min_cost = min(numeric_limits<int>::max(), price*n_participants);
+                    min_cost = min(min_cost, price*n_participants);
                 }
             }
             
