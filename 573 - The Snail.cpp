@@ -15,12 +15,12 @@ int main()
         
         while(1) {
             curr_dist += climb_dist*(1-(curr_day-1)*fatigue*1.0/100);
-            cout << "day " << curr_day << ", dist: " << curr_dist << "\n";
+            // cout << "day " << curr_day << ", dist: " << curr_dist << "\n";
             if (curr_dist <= 0) {
                 cout << "failure on day " << curr_day << "\n";
                 break;
-            } else if (curr_dist < wall_dist) {
-                cout << "success on day " << curr_day-1 << "\n";
+            } else if (curr_dist > wall_dist) {
+                cout << "success on day " << curr_day << "\n";
                 break;
             } else {
                 curr_dist -= fall_dist;
