@@ -1,5 +1,6 @@
 #include <iostream>
-#include <string>
+#include <cstring>
+#include <cstdio>
 
 using namespace std;
 
@@ -31,7 +32,7 @@ int main()
         }
         
         for (i=0; i<n_props; i++) {
-            cin >> name[i];
+            getline(cin,name[i]);
             cin >> price[i] >> reqs_met[i];
             // cout << name[i] << " " << price[i] << " "<< reqs_met[i] << "\n";
             for (j=0; j<=reqs_met[i]; j++) {
@@ -56,8 +57,8 @@ int main()
             }
         }
         
-        cout << "RFP #" << n_rfp << '\n';
-        cout << name[final_prop] << '\n';
+        cout << "RFP #" << n_rfp << endl;
+        cout << name[final_prop] << endl;
         n_rfp++;
     }
     
